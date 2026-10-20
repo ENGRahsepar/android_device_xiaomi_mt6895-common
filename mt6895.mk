@@ -373,3 +373,10 @@ PRODUCT_COPY_FILES += \
 
 # Inherit the proprietary files
 $(call inherit-product, vendor/xiaomi/mt6895-common/mt6895-common-vendor.mk)
+
+# ---------------------------------------------------------------------------
+# MTK IMS glue (see IMS_FIX_NOTES.md at the repo root)
+# - ImsService + privapp permissions remain shipped by vendor/xiaomi/mt6895-common
+# - ims.mk only adds the mtk-ims / mtk-ims-telephony RRO overlays and IMS props
+# ---------------------------------------------------------------------------
+$(call inherit-product, vendor/mediatek/ims/ims.mk)
