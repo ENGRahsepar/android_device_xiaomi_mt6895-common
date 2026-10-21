@@ -24,3 +24,6 @@ ro.vendor.sensors.xiaomi.                   u:object_r:vendor_sensors_prop:s0
 
 # Thermal
 vendor.sys.thermal.data.path                u:object_r:vendor_thermal_prop:s0
+
+# Camera DLA model error report (FIX 16/17/18)
+vendor.nrcore.dla.model.error                            u:object_r:vendor_camera_dla_prop:s0
