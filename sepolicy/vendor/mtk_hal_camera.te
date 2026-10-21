@@ -9,3 +9,11 @@ rw_dir_file(mtk_hal_camera, sysfs_therm)
 allow mtk_hal_camera camera_persist_file:file r_file_perms;
 allow mtk_hal_camera vendor_camera_data_file:file create_file_perms;
 allow mtk_hal_camera vendor_camera_data_file:file rw_file_perms;
+
+# The MTK camera HAL reads its vendor properties through the legacy
+# property API, which opens the per-context property area file
+# (/dev/__properties__/u:object_r:default_prop:s0). Without this the
+# open is denied (avc: denied { open } ... tcontext=default_prop) and
+# the HAL silently runs with default/unset configuration.
+allow mtk_hal_camera default_prop:file { open read getattr map };
+allow hal_audio_default default_prop:file { open read getattr map };
