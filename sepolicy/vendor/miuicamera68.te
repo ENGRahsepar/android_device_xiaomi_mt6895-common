@@ -1,0 +1,40 @@
+# MiuiCamera 6.8 (targetSdk 36) can run as priv_app_36 when installed as
+# a privileged, platform-signed app. Mirror the proven xaga camera rules
+# for that domain and add the IMtkPerf access required by HyperOS 4.
+
+# Camera data, post-processing helpers and properties
+allow priv_app_36 apusys_device:chr_file rw_file_perms;
+allow priv_app_36 proc_stat:file r_file_perms;
+allow priv_app_36 vendor_camera_data_file:dir { append map r_dir_perms write };
+allow priv_app_36 vendor_camera_data_file:file { getattr open read };
+get_prop(priv_app_36, vendor_mtk_camera_prop);
+get_prop(priv_app_36, vendor_mtk_cam_security_prop);
+get_prop(priv_app_36, vendor_mtk_cta_support_prop);
+
+# MTK camera, background-save, post-processing and performance services
+allow priv_app_36 mtk_hal_camera:binder { call transfer };
+allow mtk_hal_camera priv_app_36:binder { call transfer };
+hal_client_domain(priv_app_36, hal_mtk_bgs)
+hal_client_domain(priv_app_36, hal_mtk_pq)
+hal_client_domain(priv_app_36, hal_allocator)
+hal_client_domain(priv_app_36, hal_power)
+allow priv_app_36 mtk_hal_power:binder call;
+
+# The existing platform_app_36 camera also needs IMtkPerf on Camera 6.8.
+hal_client_domain(platform_app_36, hal_power)
+allow platform_app_36 mtk_hal_power:binder call;
+
+# Night/AI processing and MediaTek JPEG bridge
+allow priv_app_36 mtk_hal_neuralnetworks:binder { call transfer };
+allow priv_app_36 mdla_device:chr_file rw_file_perms;
+allow priv_app_36 vpu_device:chr_file rw_file_perms;
+allow priv_app_36 sw_sync_device:chr_file rw_file_perms;
+allow priv_app_36 proc_mtk_jpeg:file rw_file_perms;
+allowxperm priv_app_36 proc_mtk_jpeg:file ioctl {
+      JPG_BRIDGE_DEC_IO_LOCK
+      JPG_BRIDGE_DEC_IO_WAIT
+      JPG_BRIDGE_DEC_IO_UNLOCK
+};
+allow priv_app_36 proc_secmem:file r_file_perms;
+allow priv_app_36 debugfs_ion:dir search;
+allow priv_app_36 unlabeled:filesystem getattr;

@@ -1,0 +1,3 @@
+# Allow Camera 6.8 to resolve native MTK camera services from priv_app_36.
+typeattribute priv_app_36 hal_camera_client;
+allow priv_app_36 hal_camera_service:service_manager find;
