@@ -9,5 +9,6 @@ allow system_app sysfs_therm:file rw_file_perms;
 # Bypass charging node for Extra Battery Options (LineageParts, system uid).
 # Parent power_supply dir is labeled sysfs_batteryinfo on A17.
 allow system_app sysfs_batteryinfo:dir search;
+allow system_app sysfs_batteryinfo:file rw_file_perms;
 allow system_app sysfs_power_supply:dir search;
 allow system_app sysfs_power_supply:file rw_file_perms;
